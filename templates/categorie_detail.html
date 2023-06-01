@@ -1,0 +1,22 @@
+{% extends "nav.html" %}
+{% block title %}Category details{% endblock title %}
+{% block content %}
+<div class="text-center mt-4">
+  <div class="article-entry">
+    <h1>{{ object.title }}</h1>
+    <h5>Created by {{ object.author }} on {{ object.creation_date }}</h5>
+    <h4>{{ object.description }}</h4>
+    <br>
+    {% if object.category_image %}
+    <img src="{{ object.category_image.url }}" width="800" height="600">
+    {% endif %}
+  </div>
+  <div>
+    <br>
+    <a href="{% url 'post_list' categorie_id=object.id %}" class="btn btn-success">View all posts from the {{ object.title }} category</a>
+    <a href="{% url 'list-categories' %}" class="btn btn-success">Back to all categories</a>
+  </div>
+</div>
+
+
+{% endblock content %}

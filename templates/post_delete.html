@@ -1,0 +1,22 @@
+{% extends "nav.html" %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-9 mt-4">
+        <div class="shadow p-4 mb-5 bg-body rounded">
+          <h1 class="text-center">Delete</h1>
+          <form action="" method="post">{% csrf_token %}
+            <p class="text-center">Are you sure you want to delete the category "{{ object.title }}"?</p>
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-danger mr-2" type="submit">Confirm</button>
+                <a href="{% url 'post_list' %}" class="btn btn-success">No, go back</a>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

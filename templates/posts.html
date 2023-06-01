@@ -1,0 +1,34 @@
+{% extends "nav.html" %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block content %}
+<p>Teste</p>
+{% for post in category_posts %}
+    {% if category_posts %}
+        <ul>
+            <li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                    <p> Created by: {{ post.author }}</p>
+                <li>
+                    {{ post.content }}
+                </li>
+            </li>
+        </ul>
+        <div class="card-footer text-center text-muted">
+        <a href="{% url 'post_edit' post.pk %}" class="btn btn-success">Edit</a>
+        <a href="{% url 'post_delete' post.pk %}" class="btn btn-success">Delete</a>
+      </div>
+    {% else %}
+        <p>Não existem posts! Seja o primeiro a criar</p>
+    {% endif %}
+{% endfor %}
+<br>
+<div class="card-footer text-center text-muted">
+    <a href="{% url 'post_new' %}" class="btn btn-success">Create a new post</a>
+</div>
+<br>
+<div class="card-footer text-center text-muted">
+    <a href="{% url 'list-categories' %}" class="btn btn-success">Go back to all categories</a>
+</div>
+
+{% endblock content %}

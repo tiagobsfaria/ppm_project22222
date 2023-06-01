@@ -1,0 +1,53 @@
+{% extends "nav.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<div class="text-center mt-4">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+    {% if user.is_authenticated %}
+    <h2>Hi {{ user.username }}!</h2>
+        <br>
+        <p>
+            Our blog is a platform where you can find discussions on a wide range of topics. We believe in fostering an inclusive and diverse community where individuals can express their thoughts, share their experiences, and engage in meaningful conversations.
+        </p>
+        <p>
+            If you have a topic in mind that you would like to see featured as a new category on our blog, we encourage you to reach out to us. Simply send an email to admin@support.com with your suggested category, and our dedicated administrators will review your request. We value your input and strive to create an inclusive space that covers a variety of interests.
+        </p>
+        <p>
+            Whether you're passionate about technology, arts, sports, or any other subject, our blog is the perfect place to explore and engage with like-minded individuals. We encourage you to participate in the discussions, leave comments, and share your unique perspective.
+        </p>
+        <p>
+            Thank you for being a part of our blog community. We look forward to seeing you explore, connect, and contribute to the vibrant discussions happening here.
+        </p>
+    {% else %}
+        <h1 class="text-center">You are not logged in.</h1>
+        <h2 class="text-center">Please log in to be hable to comment on posts or to create a post.</h2>
+        <br>
+        <p>
+            Our blog is a platform where you can find discussions on a wide range of topics. We believe in fostering an inclusive and diverse community where individuals can express their thoughts, share their experiences, and engage in meaningful conversations.
+        </p>
+        <p>
+            If you have a topic in mind that you would like to see featured as a new category on our blog, we encourage you to reach out to us. Simply send an email to admin@support.com with your suggested category, and our dedicated administrators will review your request. We value your input and strive to create an inclusive space that covers a variety of interests.
+        </p>
+        <p>
+            Whether you're passionate about technology, arts, sports, or any other subject, our blog is the perfect place to explore and engage with like-minded individuals. We encourage you to participate in the discussions, leave comments, and share your unique perspective.
+        </p>
+        <p>
+            Thank you for being a part of our blog community. We look forward to seeing you explore, connect, and contribute to the vibrant discussions happening here.
+        </p>
+    {% endif %}
+    <p><a class="btn btn-success btn-lg" href="{% url 'list-categories' %}" role="button">View all categories</a></p>
+    {% endblock content %}
+</div>

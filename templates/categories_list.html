@@ -1,0 +1,33 @@
+{% extends "nav.html" %}
+{% load static %}
+{% block title %}Categories{% endblock title %}
+
+{% block content %}
+{% for category in object_list %}
+    <div class="card mb-3 text-center">
+        <div class="card-body">
+            <h5 class="card-title text-decoration-none text-dark">{{ category.title }}</h5>
+            {% if category.category_image %}
+                <img src="{{ category.category_image.url }}" class="card-img-top img-fluid" alt="Category Image" style="max-width: 300px; max-height: 300px;">
+            {% endif %}
+            <p class="card-text">Created by: {{ category.author }}</p>
+            <p class="card-text">Description:</p>
+            <p class="card-text">{{ category.description }}</p>
+            <a href="{% url 'post_list' categorie_id=category.id %}" class="btn btn-success">Go to posts</a>
+            <a href="{% url 'category-detail' category.pk %}" class="btn btn-success">Go to categorie details</a>
+        </div>
+        {% if user.is_superuser %}
+            <div class="card-footer text-center text-muted">
+                <a href="{% url 'category_edit' category.pk %}" class="btn btn-success">Edit</a>
+                <a href="{% url 'category_delete' category.pk %}" class="btn btn-success">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+
+{% if user.is_superuser %}
+    <div class="card-footer text-center text-muted">
+        <a href="{% url 'category_create' %}" class="btn btn-success">Create a new category</a>
+    </div>
+{% endif %}
+{% endblock content %}

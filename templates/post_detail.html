@@ -1,0 +1,83 @@
+{% extends "nav.html" %}
+
+{% block title %}Post details{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">{{ object.title }}</h1>
+          <h2 class="card-subtitle mb-2 text-muted">Created by <img src="{{ object.author.account.profile_image.url }}" width="50" height="50" class="rounded"> {{ object.author }} on {{ object.publication_date }}</h2>
+            <article class="card-text">{{ object.content }}</article>
+            <br>
+          <p> Total Likes: {{ total_likes }}</p>
+          <p>Liked by:</p>
+          <ul class="list-unstyled">
+              {% for user in liked_by %}
+                  <li>{{ user.username }}</li>
+              {% empty %}
+                  <li>No likes yet.</li>
+              {% endfor %}
+          </ul>
+          {% if user.is_authenticated %}
+            <form action="{% url 'like_post' categorie_id=object.categorie.id post_id=object.pk pk=object.pk %}" method="POST">
+              {% csrf_token %}
+              {% if liked %}
+                <button type="submit" name="post_id" value="{{ object.pk }}" class="btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                  </svg>
+                </button>
+              {% else %}
+                <button type="submit" name="post_id" value="{{ object.pk }}" class="btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                  </svg>
+                </button>
+              {% endif %}
+            </form>
+          {% endif %}
+
+          <br>
+          <h2>Comments</h2>
+          {% if user.is_authenticated %}
+              {% if not object.comments.all %}
+                  <p>No comments yet</p>
+              {% else %}
+                  <div class="list-group">
+                    {% for comment in object.comments.all %}
+                      <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                          <h5 class="mb-1">{{ comment.author }}</h5>
+                          <small>{{ comment.date_added }}</small>
+                        </div>
+                        <p class="mb-1">{{ comment.comment }}</p>
+                      </div>
+                      {% if user.is_authenticated and user == comment.author %}
+                        <div class="card-footer text-center text-muted">
+                            <a href="{% url 'comment_edit' categorie_id=comment.post.categorie.id post_id=comment.post.pk pk=comment.pk %}" class="btn btn-success">Edit Comment</a>
+                            <a href="{% url 'comment_delete' categorie_id=comment.post.categorie.id post_id=comment.post.pk pk=comment.pk %}" class="btn btn-success">Delete</a>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+              {% endif %}
+            <div class="text-center">
+                <br>
+                <br>
+                <a href="{% url 'comment_create' categorie_id=object.categorie.id post_id=object.pk %}" class="btn btn-success text-center" id="commentButton">Add comment</a>
+            </div>
+          {% else %}
+            <p> Login to see the comments</p>
+          {% endif %}
+        </div>
+        <div class="card-footer text-center">
+          <a href="{% url 'post_list' categorie_id=object.categorie.id %}" class="btn btn-success">Back to all posts from {{ object.categorie.title }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
